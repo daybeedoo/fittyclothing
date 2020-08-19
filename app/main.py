@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
