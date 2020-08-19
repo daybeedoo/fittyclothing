@@ -40,7 +40,11 @@ def login():
         else:
             session['logged_in'] = True
             return redirect(url_for('home'))
-    return render_template('login.html')
+    try:
+        if session['logged_in'] == True:
+            return redirect(url_for('home'))
+    except KeyError:
+        return render_template('login.html')
 
 if __name__=='__main__':
     app.secret_key = os.urandom(12)
