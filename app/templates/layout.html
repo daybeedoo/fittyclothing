@@ -3,15 +3,26 @@
   <head>
     <title>Flask app</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Nanum Brush Script' >
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat' >
   </head>
   <body>
     <header>
       <div class="container">
-        <h1 class="logo">Fitty Clothing</h1>
+        <h1 class="logo"><a href="{{ url_for('home') }}">Fitty Clothing</a></h1>
         <strong><nav>
           <ul class="menu">
             <li><a href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('about') }}">About</a></li>
+            <div class="dropdown">
+              <li><a href="{{ url_for('shop') }}">Shop</a></li>
+              <div class="dropdown-content">
+                <p><a href="{{ url_for('shop') }}">Shirts</a></p>
+                <p><a href="{{ url_for('shop') }}">Pants</a></p>
+              </div>
+            </div>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
           </ul>
         </nav></strong>
       </div>
