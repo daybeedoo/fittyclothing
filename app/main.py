@@ -1,33 +1,47 @@
-from flask import Flask, render_template, redirect, url_for, request
-# from flask_login import current_user, loginppi_user, logout_user
+from flask import Flask, render_template, redirect, url_for, request, session, flash
+import os
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    else:
+        return render_template('home.html')
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    else:
+        return render_template('about.html')
 
 @app.route('/shop')
 def shop():
-    return render_template('shop.html')
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    else:
+        return render_template('shop.html')
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    else:
+        return render_template('contact.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
-    error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
+        if request.form['password'] != 'admin':
+            flash('Invalid Credentials. Please try again.')
+            return redirect(url_for('login'))
         else:
+            session['logged_in'] = True
             return redirect(url_for('home'))
-    return render_template('login.html', error=error)
+    return render_template('login.html')
 
 if __name__=='__main__':
+    app.secret_key = os.urandom(12)
     app.run(debug=True)
