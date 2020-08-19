@@ -5,31 +5,19 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    else:
-        return render_template('home.html')
+    return loggedcheck('home')
 
 @app.route('/about')
 def about():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    else:
-        return render_template('about.html')
+    return loggedcheck('about')
 
 @app.route('/shop')
 def shop():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    else:
-        return render_template('shop.html')
+    return loggedcheck('shop')
 
 @app.route('/contact')
 def contact():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    else:
-        return render_template('contact.html')
+    return loggedcheck('contact')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -45,6 +33,12 @@ def login():
             return redirect(url_for('home'))
     except KeyError:
         return render_template('login.html')
+
+def loggedcheck(name):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    else:
+        return render_template(name + '.html')
 
 if __name__=='__main__':
     app.secret_key = os.urandom(12)
